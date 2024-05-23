@@ -1,0 +1,30 @@
+.required {
+    color: red;
+}
+.sidebar-brand-text img {
+    display: block;
+    margin: 0 auto; /* Center the image horizontally */
+}
+.custom-dropdown {
+    display: flex;
+    align-items: center;
+}
+
+.custom-dropdown select {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.custom-dropdown button {
+    flex-shrink: 0;
+}
+
+.error-message {
+    color: red;
+    display: none;
+}
+#reqstatus {
+    position: absolute;
+    left: -9999px;
+    visibility: hidden;
+}
