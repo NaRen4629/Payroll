@@ -83,7 +83,7 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="user.php">User Account</a>
+            <a class="collapse-item" href="Payroll_Master_User.php">User Account</a>
             <a class="collapse-item" href="utilities-border.php">Audit Trail</a>
             <a class="collapse-item" href="utilities-animation.php">Archived Records</a>
         </div>

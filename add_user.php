@@ -1,3 +1,28 @@
+<?php
+// Check if session is not started and then start it
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'Controller/controller_user.php';
+
+if (isset($_POST['addUsers'])) {
+    $Employee_ID = $_POST['Employee_ID'];
+    $Password = $_POST['Password'];
+    $Userlevel = $_POST['Userlevel'];
+    $Status = $_POST['Status'];
+
+    $user = new User();
+    $user->add_user($Employee_ID, $Password, $Userlevel, $Status);
+
+    // Set a session variable to indicate success
+    $_SESSION['User-alert'] = 'User added successfully';
+
+    // Redirect to the same page after processing the form
+    header('Location: Payroll_Master_User.php');
+    exit();
+}
+?>
+
 
 <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -8,7 +33,7 @@
             </div>
             <div class="modal-body">
                 <!-- Multi Columns Form -->
-                <form action="crud-operation.php" method="post"  id="">
+                <form action="add_user.php" method="post" id="">
                     <div class="row">
                         <div class="col-sm-5 pt-3"><span class="required">*</span>Employee ID:</div>
                         <div class="col-sm-7 pt-3">
@@ -19,8 +44,7 @@
                     <div class="row">
                         <div class="col-sm-5 pt-3"><span class="required">*</span>Password:</div>
                         <div class="col-sm-7 pt-3">
-                            <input type="text" class="form-control form-control-sm" name="Password" value=""
-                                >
+                            <input type="text" class="form-control form-control-sm" name="Password" value="">
                         </div>
                     </div>
 
@@ -28,21 +52,18 @@
                         <div class="col-sm-5 pt-3"><span class="required">*</span>User level:</div>
                         <div class="col-sm-7 pb-2 pt-3">
                             <select id="dropdown" name="Userlevel" class="form-select form-select-sm"  onchange="showTextInput()">
-                               
                                 <option>Admin</option>
+                                <option>Accounting</option>
                                 <option>Faculty</option>
                                 <option>School Admin</option>
-                                <!-- <option>Staff</option>
-                                <option value="custom">Add Another User Level</option> -->
                             </select>
                             <div>
-                            <input type="text" class="form-control form-control-sm" name="customInput" id="customOption" style="display: none;"
-                                placeholder="Enter Another User Level">
-                           </div>
+                                <input type="text" class="form-control form-control-sm" name="customInput" id="customOption" style="display: none;"
+                                    placeholder="Enter Another User Level">
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Show this button when the "custom" option is selected -->
                     <div class="row" id="addUserLevelButton" style="display: none;">
                         <div class="col-sm-5 pt-3"></div>
                         <div class="col-sm-7 pb-2 pt-3">
