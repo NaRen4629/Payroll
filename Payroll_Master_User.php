@@ -14,6 +14,8 @@ include 'config/connection.php';
 include 'session.php';
 include 'includes/Payroll-Master-header.php';
 include 'config/connection.php';
+require_once 'Controller/controller_user.php';
+    $user = new User();
 ?>
 
 
@@ -21,13 +23,21 @@ include 'config/connection.php';
 
 <div class="container-fluid">
 
-    <?php if (isset($_SESSION['User-alert']) && $_SESSION['User-alert'] != '') { ?>
+<?php if (isset($_SESSION['User-alert_success']) && $_SESSION['User-alert_success'] != '') { ?>
+    <?php if ($_SESSION['User-alert_type'] == 'success') { ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['User-alert']; ?>
+            <?php echo $_SESSION['User-alert_success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <?php unset($_SESSION['User-alert']);
-    } ?>
+    <?php } elseif ($_SESSION['User-alert_type'] == 'danger') { ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['User-alert_success']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php } ?>
+    <?php unset($_SESSION['User-alert_success']);
+          unset($_SESSION['User-alert_type']);
+} ?>
 
     <div class="page-title">
         <h3 class="font-weight-bold text-primary">User's</h3>
@@ -69,16 +79,21 @@ include 'config/connection.php';
                                     <td><?php echo $Users['Status']; ?></td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Action Buttons">
-                                            <!-- <a href="#editUser_<?php echo $Users['user_id']; ?>" class="btn btn-success btn-sm" data-toggle="modal"><i class="fa-solid fa-pen"></i> Edit</a>
-                                            <a href="#deleteUer_<?php echo $Users['user_id']; ?>" class="btn btn-danger btn-sm" data-bs-toggle="modal"><i class="fa-solid fa-trash"></i> Delete</a> -->
+                                            <a href="#editUser_<?php echo $Users['user_id']; ?>" class="btn btn-success btn-sm" data-toggle="modal"><i class="fa-solid fa-pen"></i> Edit</a>
+                                            <a href="#deleteUer_<?php echo $Users['user_id']; ?>" class="btn btn-danger btn-sm" data-bs-toggle="modal"><i class="fa-solid fa-trash"></i> Delete</a>
+                                       <?php     include('edit_user.php');?>
+                                       <?php     include('delete_user.php');?>
+
                                         </div>
                                     </td>
                                 </tr>
+                                
                                 <?php
                             }
                         } catch (PDOException $e) {
                             echo "There is some problem in connection: " . $e->getMessage();
                         }
+                       
                         // Close connection
                         $database->close();
                         ?>

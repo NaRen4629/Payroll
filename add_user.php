@@ -14,8 +14,8 @@ if (isset($_POST['addUsers'])) {
     $user = new User();
     $user->add_user($Employee_ID, $Password, $Userlevel, $Status);
 
-    // Set a session variable to indicate success
-    $_SESSION['User-alert'] = 'User added successfully';
+    $_SESSION['User-alert_success'] = 'User added successfully';
+    $_SESSION['User-alert_type'] = 'success';
 
     // Redirect to the same page after processing the form
     header('Location: Payroll_Master_User.php');
