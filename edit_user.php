@@ -14,8 +14,9 @@ if(isset($_POST['editUser'])){
     $user = new User();
     $user->update_user($Employee_ID, $Password, $Userlevel, $Status, $user_id);
 
-    // Set a session variable to indicate success
-    $_SESSION['User-alert'] = 'User Updated successfully';
+
+    $_SESSION['User-alert_success'] = 'User Updated successfully';
+    $_SESSION['User-alert_type'] = 'success';
 
     // Redirect to the same page after processing the form
     header('Location: Payroll_Master_User.php');

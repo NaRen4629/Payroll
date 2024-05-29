@@ -37,10 +37,10 @@
     <div id="filemain" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="employee.php">Employee</a>
+            <a class="collapse-item" href="Payroll_Master_Employee.php">Employee</a>
             <a class="collapse-item" href="Deduction.php">Deduction</a>
-            <a class="collapse-item" href="Offset.php">Offset</a>
-            <a class="collapse-item" href="#">Leave Credits</a>
+            <a class="collapse-item" href="Payroll_Master_Offset.php">Offset</a>
+            <a class="collapse-item" href="Payroll_Maaster_Leave.php">Leave Credits</a>
             <a class="collapse-item" href="position.php">Position</a>
             <a class="collapse-item" href="Department.php">Department</a>
             <a class="collapse-item" href="holiday.php">Holiday</a>
