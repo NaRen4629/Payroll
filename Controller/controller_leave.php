@@ -38,36 +38,29 @@ class Leave extends Connection {
         return $result;
     }
 
-    function add_leave_employee($details_id, $schedule_contents) {
+    function add_leave_employee($details_id, $leave_type, $schedule_contents) {
         $conn = $this->open();
-
+    
         try {
             $conn->beginTransaction();
-
-            // Get credits_settings from view_leave_credits_type()
-            $leave_credits_type = $this->view_leave_credits_type();
-            if (empty($leave_credits_type)) {
-                throw new Exception("No leave credit settings found.");
-            }
-            $credits_settings = $leave_credits_type[0]['credits_settings'];
-
+    
             // Insert into tbl_leave_credits
             $insert_sql_leave_credits = "INSERT INTO `tbl_leave_credits` (details_id, credits_settings) 
-                                         VALUES (:details_id, :credits_settings)";
+                                         VALUES (:details_id, :leave_type)"; // Use $leave_type instead of $credits_settings
             $insert_stmt_leave_credits = $conn->prepare($insert_sql_leave_credits);
             $insert_stmt_leave_credits->bindParam(':details_id', $details_id, PDO::PARAM_INT);
-            $insert_stmt_leave_credits->bindParam(':credits_settings', $credits_settings, PDO::PARAM_INT);
+            $insert_stmt_leave_credits->bindParam(':leave_type', $leave_type, PDO::PARAM_STR); // Bind $leave_type
             $insert_stmt_leave_credits->execute();
-
+    
             // Get the ID of the newly inserted leave credits
             $leave_credits_id = $conn->lastInsertId();
-
+    
             // Insert into tbl_leave_credits_content for each item
             $insert_sql_leave_credits_content = "INSERT INTO `tbl_leave_credits_content` (leave_credits, date, time_from, time_to, total_credits) 
                                                  VALUES (:leave_credits, :date, :time_from, :time_to, :total_credits)";
             $insert_stmt_leave_credits_content = $conn->prepare($insert_sql_leave_credits_content);
             $insert_stmt_leave_credits_content->bindParam(':leave_credits', $leave_credits_id, PDO::PARAM_INT);
-
+    
             // Loop through schedule contents to insert multiple rows
             foreach ($schedule_contents as $content) {
                 $insert_stmt_leave_credits_content->bindParam(':date', $content['date'], PDO::PARAM_STR);
@@ -76,7 +69,7 @@ class Leave extends Connection {
                 $insert_stmt_leave_credits_content->bindParam(':total_credits', $content['total_credits'], PDO::PARAM_STR);
                 $insert_stmt_leave_credits_content->execute();
             }
-
+    
             $conn->commit();
         } catch (Exception $e) {
             $conn->rollBack();
@@ -85,5 +78,6 @@ class Leave extends Connection {
             $this->close();
         }
     }
+    
 }
 ?>
