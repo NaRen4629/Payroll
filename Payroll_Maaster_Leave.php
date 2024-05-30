@@ -59,7 +59,7 @@ $Leave = new Leave();
                         $database = new Connection();
                         $db = $database->open();
                         try {
-                            $sql = "SELECT * FROM tbl_employee_details ORDER BY full_name ;";
+                            $sql = "SELECT * FROM display_leave_employee_content ORDER BY full_name ;";
                             foreach ($db->query($sql) as $leave) {
                         ?>
                                 <tr>
