@@ -107,6 +107,22 @@ class Offset1 extends Connection
         }   
     }
     
+    function search_employee_leave($query3) {
+        try {
+            $conn = $this->open();
+            $sql = "SELECT * FROM display_leave_employee_content WHERE full_name LIKE :query ORDER BY full_name";
+            
+            $stmt = $conn->prepare($sql);
+            $search_query = "%{$query3}%";
+            $stmt->bindParam(':query', $search_query, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+    
+        } catch(PDOException $e) {
+            die("Error: ". $e->getMessage());
+        }   
+    }
     
 }
 
@@ -145,4 +161,18 @@ if (isset($_POST['query2'])) {
         echo "<div class='search-item'>No results found</div>";
     }
 }
+
+if (isset($_POST['query3'])) {
+    $search = new Offset1();
+    $result = $search->search_employee_leave($_POST['query3']);
+    if ($result) {
+        foreach ($result as $row) {
+            echo "<div class='search-item list-group-item' data-id='".$row['details_id']."' data-position='".$row['position']."' data-department_id='".$row['department_id']."'>".$row['full_name']."</div>";
+        }
+    } else {
+        echo "<div class='search-item list-group-item'>No results found</div>";
+    }
+}
+
+
 ?>

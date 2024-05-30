@@ -86,6 +86,9 @@
             <a class="collapse-item" href="Payroll_Master_User.php">User Account</a>
             <a class="collapse-item" href="utilities-border.php">Audit Trail</a>
             <a class="collapse-item" href="utilities-animation.php">Archived Records</a>
+            <a class="collapse-item" href="Payroll_Master_Leave_Settings.php">Leave Settings</a>
+
+            
         </div>
     </div>
 </li>
