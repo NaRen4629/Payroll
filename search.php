@@ -110,7 +110,7 @@ class Offset1 extends Connection
     function search_employee_leave($query3) {
         try {
             $conn = $this->open();
-            $sql = "SELECT * FROM display_leave_employee_content WHERE full_name LIKE :query ORDER BY full_name";
+            $sql = "SELECT * FROM display_leave_employee_content2 WHERE full_name LIKE :query ORDER BY full_name";
             
             $stmt = $conn->prepare($sql);
             $search_query = "%{$query3}%";
@@ -167,7 +167,7 @@ if (isset($_POST['query3'])) {
     $result = $search->search_employee_leave($_POST['query3']);
     if ($result) {
         foreach ($result as $row) {
-            echo "<div class='search-item list-group-item' data-id='".$row['details_id']."' data-total-offset='".$row['total_credits']."'' data-position='".$row['position']."' data-department_id='".$row['department_id']."'>".$row['full_name']."</div>";
+            echo "<div class='search-item list-group-item' data-id='".$row['employee_id']."' data-total-offset='".$row['total_credits']."'' data-position='".$row['position']."' data-department_id='".$row['department_id']."'>".$row['full_name']."</div>";
         }
     } else {
         echo "<div class='search-item list-group-item'>No results found</div>";
