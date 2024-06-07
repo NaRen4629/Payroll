@@ -28,7 +28,7 @@ require_once 'Controller/controller_user.php';
 } ?>
 
     <div class="page-title">
-        <h3 class="font-weight-bold text-primary">User's</h3>
+        <h3 class="font-weight-bold text-primary">Department</h3>
     </div>
 
     <!-- DataTables Example -->
@@ -36,7 +36,7 @@ require_once 'Controller/controller_user.php';
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <!-- Button trigger modal -->   
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUser">Add User</button>
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addDepartment">Add Department</button>
         </div>
 
         <div class="card-body">
@@ -90,7 +90,7 @@ require_once 'Controller/controller_user.php';
             </div>
         </div>
     </div>
-    <?php include 'add_user.php'; ?>
+    <?php include 'add_department.php'; ?>
 
     <!-- <?php include 'modals/Payroll_Master/Maintenance/User/add_user.php'; ?> -->
 </div>

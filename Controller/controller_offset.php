@@ -1,10 +1,9 @@
 <?php
 include_once('config/connection.php'); // Make sure this path is correct
 
-class Offset extends Connection
-{
-    function add_offset($employee_id, $hours)
-    { 
+class Offset extends Connection{
+    
+    function add_offset($employee_id, $hours){ 
          $conn = $this->open();
         try {
             $conn->beginTransaction();
@@ -78,6 +77,46 @@ class Offset extends Connection
             die("Error: " . $e->getMessage());
         }
         $this->close();
+    }
+
+
+    function add_offset_content( $date, $time_start, $time_end, $reason, $used_offset, $date_used,$employee_id,$offset_hours) { 
+        $conn = $this->open();
+        try {
+            $conn->beginTransaction();
+
+            // Insert into tbl_offset_contents
+            $insert_sql_contents = "INSERT INTO `tbl_offset_contents` (`date`, `time_start`, `time_end`, `reason`, `used_offset`, `date_used`,`employee_id`,`offset_hours`) 
+                                    VALUES (:date, :time_start, :time_end, :reason, :used_offset, :date_used,:employee_id,:offset_hours)";
+            $insert_stmt_contents = $conn->prepare($insert_sql_contents);
+            // $insert_stmt_contents->bindParam(':offset_id', $offset_id, PDO::PARAM_INT);
+            $insert_stmt_contents->bindParam(':date', $date, PDO::PARAM_STR);
+            $insert_stmt_contents->bindParam(':time_start', $time_start, PDO::PARAM_STR);
+            $insert_stmt_contents->bindParam(':time_end', $time_end, PDO::PARAM_STR);
+            $insert_stmt_contents->bindParam(':reason', $reason, PDO::PARAM_STR);
+            $insert_stmt_contents->bindParam(':used_offset', $used_offset, PDO::PARAM_INT);
+            $insert_stmt_contents->bindParam(':date_used', $date_used, PDO::PARAM_STR);
+            $insert_stmt_contents->bindParam(':employee_id', $employee_id, PDO::PARAM_STR);
+            $insert_stmt_contents->bindParam(':offset_hours', $offset_hours, PDO::PARAM_STR);
+
+            $insert_stmt_contents->execute();
+
+            // Commit the transaction
+            $conn->commit();
+
+            // Close statement
+            $insert_stmt_contents->closeCursor();
+
+            return true; // Success
+        } catch (PDOException $e) {
+            // Rollback the transaction if an error occurred
+            $conn->rollback();
+
+            // Handle errors (optional)
+            die("Error: " . $e->getMessage());
         }
+        $this->close();
+    }
+
 }
 ?>

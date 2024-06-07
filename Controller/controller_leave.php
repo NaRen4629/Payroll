@@ -38,17 +38,17 @@ class Leave extends Connection {
         return $result;
     }
 
-    function add_leave_employee($details_id, $leave_type, $schedule_contents) {
+    function add_leave_employee($employee_id, $leave_type, $schedule_contents) {
         $conn = $this->open();
     
         try {
             $conn->beginTransaction();
     
             // Insert into tbl_leave_credits
-            $insert_sql_leave_credits = "INSERT INTO `tbl_leave_credits` (details_id, credits_settings) 
-                                         VALUES (:details_id, :leave_type)"; // Use $leave_type instead of $credits_settings
+            $insert_sql_leave_credits = "INSERT INTO `tbl_leave_credits` (employee_id, credit_code ) 
+                                         VALUES (:employee_id, :leave_type)"; // Use $leave_type instead of $credits_settings
             $insert_stmt_leave_credits = $conn->prepare($insert_sql_leave_credits);
-            $insert_stmt_leave_credits->bindParam(':details_id', $details_id, PDO::PARAM_INT);
+            $insert_stmt_leave_credits->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
             $insert_stmt_leave_credits->bindParam(':leave_type', $leave_type, PDO::PARAM_STR); // Bind $leave_type
             $insert_stmt_leave_credits->execute();
     

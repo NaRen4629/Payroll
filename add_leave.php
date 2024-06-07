@@ -40,9 +40,6 @@ if (isset($_POST['addLeave'])) {
 }
 ?>
 
-
-
-
 <div class="modal fade" id="addleave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -93,18 +90,20 @@ if (isset($_POST['addLeave'])) {
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="time_from" class="form-label"><span class="required">*</span>Time From:</label>
-                                <input type="time" class="form-control" id="time_from" name="time_from" required>
-                                <div class="invalid-feedback">Please select a start time.</div>
+                                <input type="time" class="form-control" id="time_from" name="time_from" required
+                                       min="08:00" max="17:00">
+                                <div class="invalid-feedback">Please select a start time between 8:00 AM and 5:00 PM.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="time_to" class="form-label"><span class="required">*</span>Time To:</label>
-                                <input type="time" class="form-control" id="time_to" name="time_to" required>
-                                <div class="invalid-feedback">Please select an end time.</div>
+                                <input type="time" class="form-control" id="time_to" name="time_to" min="08:00" max="17:00" required>
+                                <div class="invalid-feedback">Please select a start time between 8:00 AM and 5:00 PM.</div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <h4 class="form-label">Total Day of Leave:</h4>
+                                <span id="total_day_leave"></span>
                             </div>
                         </div>
                     </div>
@@ -118,8 +117,73 @@ if (isset($_POST['addLeave'])) {
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Function to calculate duration and update Total Day of Leave
+        function calculateDuration() {
+            var timeFrom = $('#time_from').val();
+            var timeTo = $('#time_to').val();
+
+            if (timeFrom && timeTo) {
+                // Convert time strings to Date objects
+                var timeFromDate = new Date('1970-01-01T' + timeFrom + 'Z');
+                var timeToDate = new Date('1970-01-01T' + timeTo + 'Z');
+
+                // Calculate time difference in milliseconds
+                var timeDiff = Math.abs(timeToDate - timeFromDate);
+
+                // Convert time difference to hours and minutes
+                var hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                var minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+                // Update Total Day of Leave with the calculated duration
+                if (hours >= 9) {
+                    $('#total_day_leave').text("1 day");
+                } else {
+                    $('#total_day_leave').text(hours + " hours " + minutes + " minutes");
+                }
+            } else {
+                $('#total_day_leave').text("");
+            }
+        }
+
+        // Event listener for time fields change
+        $('#time_from, #time_to').on('change', function() {
+            calculateDuration();
+        });
+
+        // Initial calculation when page loads
+        calculateDuration();
+
+        // Function to check if the time is within the specified range
+        function isTimeInRange(time) {
+            var startTime = '08:00';
+            var endTime = '17:00';
+            return time >= startTime && time <= endTime;
+        }
+
+        // Function to validate the time input
+        function validateTimeInput(input) {
+            var time = input.val();
+            if (!isTimeInRange(time)) {
+                input.addClass('is-invalid');
+                return false;
+            } else {
+                input.removeClass('is-invalid');
+                return true;
+            }
+        }
+
+        // Event listener for time fields change
+        $('#time_from, #time_to').on('change', function() {
+            validateTimeInput($(this));
+        });
+
+        // Initial validation when page loads
+        validateTimeInput($('#time_from'));
+
+        // AJAX search function for employee search
         $('#search').on('keyup', function() {
             var query3 = $(this).val();
             if (query3 != '') {
@@ -154,9 +218,5 @@ if (isset($_POST['addLeave'])) {
 
             $('#totalOffsetContainer').show(); // Show the total offset container
         });
-
-
-
-        // No need to hide the total offset field on modal open
     });
 </script>
