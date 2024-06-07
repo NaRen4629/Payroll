@@ -24,7 +24,7 @@ class Position extends Connection {
     
             $conn->beginTransaction();
     
-            $insert_position = "INSERT INTO `tbl_position`(`employe_type`, `position`, `type`, `status`)
+            $insert_position = "INSERT INTO `tbl_position`(`employee_type`, `position`, `type`, `status`)
                             VALUES (:employee_type, :position, :type, :status)";
     
             $insert_stmt_insert_position = $conn->prepare($insert_position);
@@ -52,13 +52,13 @@ class Position extends Connection {
         $this->close();
     }
 
-    function update_position($employee_type, $position_name, $type, $status,$position_id){
+    function update_position($employee_type, $position_name, $type, $status, $position_id){
         $conn = $this->open();
     
         try {
             $conn->beginTransaction();
     
-            $update_user = "UPDATE `tbl_position` SET `position_id ` = :position_id , `employee_type` = :employee_type, `position_name` = :position_name, `type` = :type WHERE `position_id` = :position_id";
+            $update_user = "UPDATE `tbl_position` SET `employee_type` = :employee_type, `position` = :position_name, `type` = :type, `status` = :status WHERE `position_id` = :position_id";
     
             $update_stmt = $conn->prepare($update_user);
             $update_stmt->bindParam(':employee_type', $employee_type);
@@ -68,25 +68,29 @@ class Position extends Connection {
             $update_stmt->bindParam(':position_id', $position_id);
     
             $update_stmt->execute();
-            $_SESSION['Position-alert_success'] = 'Position added successfully';
-            $_SESSION['Position-alert_type'] = 'success';
-        
-            header('Location: Payroll_Master_Position.php');
-            exit(); // Exit after redirect
-        
+    
+            if ($update_stmt->rowCount() > 0) {
+                // Update successful
+                $_SESSION['Position-alert_success'] = 'Position updated successfully';
+                $_SESSION['Position-alert_type'] = 'success';
+            } else {
+                // No rows affected, something went wrong
+                $_SESSION['Position-alert_success'] = 'No changes made or error occurred during update';
+                $_SESSION['Position-alert_type'] = 'danger';
+            }
+    
             $conn->commit();
         } catch (PDOException $e) {
             $conn->rollBack();
-            $_SESSION['Position-alert_success'] = 'Error adding position: ' . $e->getMessage();
+            $_SESSION['Position-alert_success'] = 'Error updating position: ' . $e->getMessage();
             $_SESSION['Position-alert_type'] = 'danger';
-            header('Location: Payroll_Master_Position.php');
-            exit(); // Exit after redirect
         }
     
         $this->close();
-
+        header('Location: Payroll_Master_Position.php');
+        exit(); // Exit after redirect
     }
-
+    
     function delete_position($position_id) {
         $conn = $this->open();
 
@@ -117,6 +121,23 @@ class Position extends Connection {
         $this->close();
     }
 
-    
+    public function getEmployeeTypes() {
+        $employee_types = [];
+        $conn = $this->open(); // Open the connection
+
+        if ($conn) {
+            $query = "SELECT DISTINCT employee_type FROM tbl_position";
+            $stmt = $conn->prepare($query);
+            $stmt->execute();
+
+            while ($row = $stmt->fetch()) {
+                $employee_types[] = $row['employee_type'];
+            }
+
+            $this->close(); // Close the connection
+        }
+
+        return $employee_types;
+    }
 }
 ?>

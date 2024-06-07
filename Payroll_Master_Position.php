@@ -60,7 +60,7 @@ $position = new Position();
                             foreach ($db->query($sql) as $Position) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $Position['employe_type']; ?></td>
+                                    <td><?php echo $Position['employee_type']; ?></td>
                                     <td><?php echo $Position['position']; ?></td>
                                     <td><?php echo $Position['type']; ?></td>
                                     <td><?php echo $Position['status']; ?></td>
