@@ -18,7 +18,7 @@ try {
 $servername = "localhost"; // Change this to your database server name
 $username = "root"; // Change this to your database username
 $password = ""; // Change this to your database password
-$database = "db_capstone"; // Change this to your database name
+$database = "db_payroll"; // Change this to your database name
 
 // Create a connection to the database
 $db = mysqli_connect($servername, $username, $password, $database);

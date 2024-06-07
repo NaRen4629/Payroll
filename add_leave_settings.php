@@ -13,7 +13,7 @@ if (isset($_POST['addLeaveSetting'])) {
     $status = $_POST['status'];
 
     $Leave = new Leave();
-    $Leave->add_leave_settings($leave_credit_code, $leave_credit_name, $description, $default_credits,$status);
+    $Leave->add_leave_settings($leave_credit_code, $leave_credit_name, $description, $default_credits, $status,$details_id, $leave_type, $schedule_contents);
 
     $_SESSION['Leave-Setttings-alert_success'] = 'Leave Setttings added successfully';
     $_SESSION['Leave-Setttings-alert_type'] = 'success';

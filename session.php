@@ -15,8 +15,8 @@ if (!isset($_SESSION['Employee_ID'])) {
 ?>
 
 
-
-<!-- <php
+<!-- 
+<php
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }

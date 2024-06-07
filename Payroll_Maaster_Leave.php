@@ -59,17 +59,17 @@ $Leave = new Leave();
                         $database = new Connection();
                         $db = $database->open();
                         try {
-                            $sql = "SELECT * FROM display_leave_employee_content ORDER BY full_name ;";
+                            $sql = "SELECT * FROM display_leave_employee_content3 ORDER BY full_name ;";
                             foreach ($db->query($sql) as $leave) {
                         ?>
                                 <tr>
 
                                     <td><?php echo $leave['full_name']; ?></td>
-                                    <td><?php echo $leave['lcc_date']; ?></td>
+                                    <td><?php echo $leave['leave_total_credits']; ?></td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Action Buttons">
-                                            <a href="#ViewtOffset_<php echo $leave['employee_id']; ?>" class="btn btn-info btn-sm" data-toggle="modal"><i class="fa-solid fa-pen"></i> View</a>
-                                            <php include('view_offset.php'); ?>
+                                            <!-- <a href="#ViewtOffset_<php echo $leave['employee_id']; ?>" class="btn btn-info btn-sm" data-toggle="modal"><i class="fa-solid fa-pen"></i> View</a> -->
+                                            <!-- <php include('view_offset.php'); ?> -->
                                         </div>
                                     </td>
                                 </tr>

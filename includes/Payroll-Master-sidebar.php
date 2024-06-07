@@ -41,9 +41,9 @@
             <a class="collapse-item" href="Deduction.php">Deduction</a>
             <a class="collapse-item" href="Payroll_Master_Offset.php">Offset</a>
             <a class="collapse-item" href="Payroll_Maaster_Leave.php">Leave Credits</a>
-            <a class="collapse-item" href="position.php">Position</a>
-            <a class="collapse-item" href="Department.php">Department</a>
-            <a class="collapse-item" href="holiday.php">Holiday</a>
+            <a class="collapse-item" href="Payroll_Master_Position.php">Position</a>
+            <a class="collapse-item" href="Payroll_Master_Department.php">Department</a>
+            <!-- <a class="collapse-item" href="holiday.php">Holiday</a> -->
             <!-- <a class="collapse-item" href="tardi.php">Tardi</a> -->
             <a class="collapse-item" href="Travel.php">Travel</a>
 
