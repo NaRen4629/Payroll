@@ -10,24 +10,24 @@ require_once 'Controller/controller_user.php';
 
 <div class="container-fluid">
 
-    <?php if (isset($_SESSION['User-alert_success']) && $_SESSION['User-alert_success'] != '') { ?>
-        <?php if ($_SESSION['User-alert_type'] == 'success') { ?>
+    <?php if (isset($_SESSION['Employee-alert_success']) && $_SESSION['Employee-alert_success'] != '') { ?>
+        <?php if ($_SESSION['Employee-alert_type'] == 'success') { ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['User-alert_success']; ?>
+                <?php echo $_SESSION['Employee-alert_success']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        <?php } elseif ($_SESSION['User-alert_type'] == 'danger') { ?>
+        <?php } elseif ($_SESSION['Employee-alert_type'] == 'danger') { ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['User-alert_success']; ?>
+                <?php echo $_SESSION['Employee-alert_success']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } ?>
-    <?php unset($_SESSION['User-alert_success']);
-        unset($_SESSION['User-alert_type']);
+    <?php unset($_SESSION['Employee-alert_success']);
+        unset($_SESSION['Employee-alert_type']);
     } ?>
 
     <div class="page-title">
-        <h3 class="font-weight-bold text-primary">Employee</h3>
+        <h3 class="font-weight-bold text-primary">Employee Details</h3>
     </div>
 
     <!-- DataTables Example -->
@@ -35,7 +35,9 @@ require_once 'Controller/controller_user.php';
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUser">Add Employee</button>
+            <!-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addUser">Add Employee</button> -->
+            <a href="add_employee.php"class="btn btn-sm btn-primary">Add Employee</a>
+
         </div>
 
         <div class="card-body">
@@ -43,8 +45,8 @@ require_once 'Controller/controller_user.php';
                 <table id="dataTable" class="table table-striped table-bordered nowrap" style="width: 100%">
                     <thead>
 
-                        <th>employee Number</th>
-                        <th>employee Full Name</th>
+                        <th>Employee Number</th>
+                        <th>Employee Full Name</th>
 
                     </thead>
                     <tbody>
@@ -84,7 +86,6 @@ require_once 'Controller/controller_user.php';
             </div>
         </div>
     </div>
-    <?php include 'add_user.php'; ?>
 
     <!-- <?php include 'modals/Payroll_Master/Maintenance/User/add_user.php'; ?> -->
 </div>

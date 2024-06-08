@@ -58,6 +58,7 @@ if (isset($_POST['addPosition'])) {
                         </div>
                     </div>
 
+
                     <div class="mb-3 row align-items-center">
                         <label for="holidayType" class="col-sm-3 col-form-label"><span class="required">*</span>Status</label>
                         <div class="col-sm-9">

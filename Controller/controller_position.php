@@ -75,7 +75,7 @@ class Position extends Connection {
                 $_SESSION['Position-alert_type'] = 'success';
             } else {
                 // No rows affected, something went wrong
-                $_SESSION['Position-alert_success'] = 'No changes made or error occurred during update';
+                $_SESSION['Position-alert_success'] = 'No changes made';
                 $_SESSION['Position-alert_type'] = 'danger';
             }
     
