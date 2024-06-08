@@ -3,102 +3,118 @@ include 'session.php';
 include 'includes/School-Admin-header.php';
 include 'config/connection.php';
 require_once 'Controller/controller_salary.php';
-    $Salary = new Salary();
-    $employee_salaries = $Salary->get_all_employee_salary();
 
+$Salary = new Salary();
+$employee_salaries = $Salary->get_all_employee_salary();
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- Begin Page Content -->
+<head>
+    <script src="library/dselect.js"></script>
+</head>
 
-<div class="container-fluid">
+<body>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
 
-<?php if (isset($_SESSION['User-alert_success']) && $_SESSION['User-alert_success'] != '') { ?>
-    <?php if ($_SESSION['User-alert_type'] == 'success') { ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['User-alert_success']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php } elseif ($_SESSION['User-alert_type'] == 'danger') { ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['User-alert_success']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php } ?>
-    <?php unset($_SESSION['User-alert_success']);
-          unset($_SESSION['User-alert_type']);
-} ?>
+        <?php if (isset($_SESSION['Salary-alert_success']) && $_SESSION['Salary-alert_success'] != '') { ?>
+            <div class="alert alert-<?php echo $_SESSION['Salary-alert_type']; ?> alert-dismissible fade show" role="alert">
+                <?php echo $_SESSION['Salary-alert_success']; ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php unset($_SESSION['Salary-alert_success']);
+            unset($_SESSION['Salary-alert_type']);
+        } ?>
 
-    <div class="page-title">
-        <h3 class="font-weight-bold text-primary">Salary</h3>
-    </div>
-
-    <!-- DataTables Example -->
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <!-- Button trigger modal -->   
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addSalary">Add Salary</button>
+        <div class="page-title">
+            <h3 class="font-weight-bold text-primary">Salary</h3>
         </div>
 
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-striped table-bordered nowrap" style="width: 100%">
-                    <thead>
-                        <th>ID</th>
-                        <th>User ID</th>
-                        <th>Password</th>
-                        <th>User Level </th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                        <?php
-                        // Include our connection
-                        $database = new Connection();
-                        $db = $database->open();
-                        try {
-                            $sql = 'SELECT * FROM tbl_user_level';
-                            foreach ($db->query($sql) as $Users) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $Users['user_id']; ?></td>
-                                    <td><?php echo $Users['Employee_ID']; ?></td>
-                                    <td><?php echo $Users['Password']; ?></td>
-                                    <td><?php echo $Users['Userlevel']; ?></td>
-                                    <td><?php echo $Users['Status']; ?></td>
-                                    <td>
-                                        <div class="btn-group" role="group" aria-label="Action Buttons">
-                                            <a href="#editUser_<?php echo $Users['user_id']; ?>" class="btn btn-success btn-sm" data-toggle="modal"><i class="fa-solid fa-pen"></i> Edit</a>
-                                            <a href="#deleteUer_<?php echo $Users['user_id']; ?>" class="btn btn-danger btn-sm" data-bs-toggle="modal"><i class="fa-solid fa-trash"></i> Delete</a>
-                                       <?php     include('edit_user.php');?>
-                                       <?php     include('delete_user.php');?>
+        <!-- DataTables Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addSalary">Add Salary</button>
+            </div>
 
-                                        </div>
-                                    </td>
-                                </tr>
-                                
-                                <?php
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-striped table-bordered nowrap" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Employee Type</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            try {
+                                $database = new Connection();
+                                $db = $database->open();
+
+                                $sql = "SELECT
+    e.employee_id,
+    e.employee_number,
+    CONCAT(e.first_name, ' ', e.last_name) AS full_name,
+    s.*,
+    ep.*,
+    dept.*,
+    ed.*
+FROM
+    tbl_employee e
+INNER JOIN tbl_employee_details ed ON
+    e.employee_id = ed.employee_details_id
+INNER JOIN tbl_position ep ON
+    ep.position_id = ed.employee_details_position
+left JOIN tbl_department dept ON
+    dept.department_id = ed.employee_details_department
+INNER JOIN tbl_employee_salary s ON
+    e.employee_id = s.employee_salary
+WHERE
+     ep.type IN('Regular', 'Not Regular')";
+
+                                $stmt = $db->query($sql);
+
+                                while ($Position = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    $status = $Position['salary'] === null ? 'Not yet set' : 'Set';
+
+                            ?>
+                            
+                                    <tr>
+                                        <td><?php echo $Position['full_name']; ?></td>
+                                        <td><?php echo $Position['employee_type']; ?></td>
+                                        <td><?php echo $Position['type']; ?></td>
+                                        <td><?php echo $status; ?></td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Action Buttons">
+                                            </div>
+                                        </td>
+                                    </tr>
+                            <?php
+                                }
+                            } catch (PDOException $e) {
+                                echo "There is some problem in connection: " . $e->getMessage();
                             }
-                        } catch (PDOException $e) {
-                            echo "There is some problem in connection: " . $e->getMessage();
-                        }
-                       
-                        // Close connection
-                        $database->close();
-                        ?>
-                    </tbody>
-                </table>
+                            $database->close();
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+        <?php include 'add_salary.php'; ?>
     </div>
-    <?php include 'add_salary.php'; ?>
+    <!-- /.container-fluid -->
 
-    <!-- <?php include 'modals/Payroll_Master/Maintenance/User/add_user.php'; ?> -->
-</div>
-<!-- /.container-fluid -->
+    <?php
+    include 'includes/footer.php';
+    include 'includes/scripts.php';
+    ?>
+</body>
 
-<?php
-include 'includes/footer.php';
-include 'includes/scripts.php';
-?>
+</html>
