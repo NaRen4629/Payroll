@@ -8,10 +8,11 @@ if (isset($_POST['addPosition'])) {
     $employee_type = $_POST['employe_type'];
     $position_name = $_POST['position'];
     $type = $_POST['type'];
+    $salary_type = $_POST['salary_type'];
     $status = $_POST['status'];
 
     $position = new Position();
-    $position->add_position($employee_type, $position_name, $type, $status);
+    $position->add_position($employee_type, $position_name, $type,$salary_type ,$status);
 }
 ?>
 
@@ -54,6 +55,17 @@ if (isset($_POST['addPosition'])) {
                                 <option value="">Select</option>
                                 <option value="Regular">Regular</option>
                                 <option value="Not Regular">Not Regular</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="position" class="col-sm-3 col-form-label">Salary Type:</label>
+                        <div class="col-sm-9 d-flex align-items-center">
+                            <select name="salary_type" class="form-control" required>
+                                <option value="">Select</option>
+                                <option value="Hourly Rate">Hourly Rate</option>
+                                <option value="Monthly Rate">Monthly Rate</option>
                             </select>
                         </div>
                     </div>

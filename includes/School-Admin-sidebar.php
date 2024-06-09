@@ -39,7 +39,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Deduction:</h6>
             <a class="collapse-item" href="School_Admin_Salary.php">Salary</a>
-            <a class="collapse-item" href="salary_adjustment.php">Salary Adjustment</a>
+            <!-- <a class="collapse-item" href="Payroll_Master_Salary_Adjustment.php">Salary Adjustment</a> -->
             <!-- <a class="collapse-item" href="employee_schedule.php">Employee Schedule</a> -->
         </div>
     </div>

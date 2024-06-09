@@ -3,7 +3,7 @@ include_once('config/connection.php'); // Make sure this path is correct
 
 class Position extends Connection {
 
-    function add_position($employee_type, $position_name, $type, $status) {
+    function add_position($employee_type, $position_name, $type,$salary_type, $status) {
         $conn = $this->open();
     
         try {
@@ -24,13 +24,14 @@ class Position extends Connection {
     
             $conn->beginTransaction();
     
-            $insert_position = "INSERT INTO `tbl_position`(`employee_type`, `position`, `type`, `status`)
-                            VALUES (:employee_type, :position, :type, :status)";
+            $insert_position = "INSERT INTO `tbl_position`(`employee_type`, `position`, `type`, `salary_type`,`status`)
+                            VALUES (:employee_type, :position, :type, :salary_type, :status)";
     
             $insert_stmt_insert_position = $conn->prepare($insert_position);
             $insert_stmt_insert_position->bindParam(':employee_type', $employee_type);
             $insert_stmt_insert_position->bindParam(':position', $position_name);
             $insert_stmt_insert_position->bindParam(':type', $type);
+            $insert_stmt_insert_position->bindParam(':salary_type', $salary_type);
             $insert_stmt_insert_position->bindParam(':status', $status);
             $insert_stmt_insert_position->execute();
     

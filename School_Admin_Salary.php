@@ -6,6 +6,7 @@ require_once 'Controller/controller_salary.php';
 
 $Salary = new Salary();
 $employee_salaries = $Salary->get_all_employee_salary();
+$view_salary_adjustments =$Salary->view_salary_adjustments();
 ?>
 
 <!DOCTYPE html>
@@ -71,27 +72,31 @@ INNER JOIN tbl_employee_details ed ON
     e.employee_id = ed.employee_details_id
 INNER JOIN tbl_position ep ON
     ep.position_id = ed.employee_details_position
-left JOIN tbl_department dept ON
+LEFT JOIN tbl_department dept ON
     dept.department_id = ed.employee_details_department
 INNER JOIN tbl_employee_salary s ON
     e.employee_id = s.employee_salary
 WHERE
-     ep.type IN('Regular', 'Not Regular')";
+    ep.type IN('Regular', 'Not Regular')";
 
                                 $stmt = $db->query($sql);
 
-                                while ($Position = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    $status = $Position['salary'] === null ? 'Not yet set' : 'Set';
+                                while ($Salary = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    $status = $Salary['salary'] === null ? 'Not yet set' : 'Set';
+                                    $statusClass = $status === 'Not yet set' ? 'text-danger' :  'text-success';
 
                             ?>
-                            
                                     <tr>
-                                        <td><?php echo $Position['full_name']; ?></td>
-                                        <td><?php echo $Position['employee_type']; ?></td>
-                                        <td><?php echo $Position['type']; ?></td>
-                                        <td><?php echo $status; ?></td>
+                                        <td><?php echo $Salary['full_name']; ?></td>
+                                        <td><?php echo $Salary['employee_type']; ?></td>
+                                        <td><?php echo $Salary['type']; ?></td>
+                                        <td class="<?php echo $statusClass; ?>"><?php echo $status; ?></td>
                                         <td>
                                             <div class="btn-group" role="group" aria-label="Action Buttons">
+                                                <?php if ($status === 'Set') { ?>
+                                                    <a href="#addSalaryAdjustment<?php echo $Salary['salary_id']; ?>" class="btn btn-success btn-sm" data-toggle="modal"><i class="fa-solid fa-pen"></i> Add Salary Adjustment</a>
+                                                    <?php include('add_salary_adjustment.php'); ?>
+                                                <?php } ?>
                                             </div>
                                         </td>
                                     </tr>

@@ -39,7 +39,7 @@ if (isset($_POST['addSalary'])) {
                         <select name="select_box" class="form-select" id="select_box" required>
                             <option value="" selected disabled>Select Employee</option>
                             <?php foreach ($employee_salaries as $employee_salary) : ?>
-                                <option value="<?php echo $employee_salary['salary_id']; ?>" data-employee-type="<?php echo $employee_salary['type']; ?>" data-employee-position="<?php echo $employee_salary['position']; ?>">
+                                <option value="<?php echo $employee_salary['salary_id']; ?>" data-employee-type="<?php echo $employee_salary['salary_type']; ?>" data-employee-position="<?php echo $employee_salary['position']; ?>">
                                     <?php echo $employee_salary['full_name']; ?> - <?php echo $employee_salary['salary']; ?>
                                 </option>
                             <?php endforeach; ?>
@@ -93,10 +93,10 @@ if (isset($_POST['addSalary'])) {
 
             employeePosition.value = position;
 
-            if (employeeType === 'Regular') {
+            if (employeeType === 'Monthly Rate') {
                 regularFields.style.display = 'block';
                 notRegularFields.style.display = 'none';
-            } else if (employeeType === 'Not Regular') {
+            } else if (employeeType === 'Hourly Rate') {
                 regularFields.style.display = 'none';
                 notRegularFields.style.display = 'block';
             } else {
@@ -111,9 +111,9 @@ if (isset($_POST['addSalary'])) {
 
         employeePosition.value = initialPosition;
 
-        if (initialEmployeeType === 'Regular') {
+        if (initialEmployeeType === 'Monthly Rate') {
             regularFields.style.display = 'block';
-        } else if (initialEmployeeType === 'Not Regular') {
+        } else if (initialEmployeeType === 'Hourly Rate') {
             notRegularFields.style.display = 'block';
         }
     });
