@@ -28,7 +28,7 @@
                                 <div class="p-5">
                                     <img class="img-fluid" src="logo.png" alt="Logo">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Comlab Equipment Laboratory Inventory And Monitoring Management</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Payroll System with Leave Credits and Offset Monitoring</h1>
                                     </div>
                                     <form method="POST" action="login_action.php" class="user needs-validation" novalidate>
                                         <div class="form-group">
