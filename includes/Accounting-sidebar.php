@@ -1,8 +1,9 @@
+
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="PayrollMaster_index.php">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="Accounting_index.php">
     <div class="sidebar-brand-text mx-2">
     <img style="margin-top: 140px;" class="rounded" src="./img/sti-ormoc-logo.png" width="auto" height="180">
     </div>
@@ -14,7 +15,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item active">
-    <a class="nav-link" href="PayrollMaster_index.php.php">
+    <a class="nav-link" href="Accounting_index.php">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
@@ -32,30 +33,24 @@
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#filemain"
         aria-expanded="true" aria-controls="filemain">
         <i class="fas fa-fw fa-cog"></i>
-        <span>File Maintenance</span>
+        <span>File Maintenance </span>
     </a>
     <div id="filemain" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="Payroll_Master_Employee.php">Employee</a>
-            <a class="collapse-item" href="Deduction.php">Deduction</a>
-            <a class="collapse-item" href="Payroll_Master_Offset.php">Offset</a>
-            <a class="collapse-item" href="Payroll_Maaster_Leave.php">Leave Credits</a>
-            <a class="collapse-item" href="Payroll_Master_Position.php">Position</a>
-            <a class="collapse-item" href="Payroll_Master_Department.php">Department</a>
-            <a class="collapse-item" href="Payroll_Master_Holiday.php">Holiday</a>
-            <!-- <a class="collapse-item" href="tardi.php">Tardi</a> -->
-            <a class="collapse-item" href="Travel.php">Travel</a>
+            <h6 class="collapse-header">Deduction:</h6>
+            <a class="collapse-item" href="Accounting_SSS.php">SSS</a>
+            <a class="collapse-item" href="Accounting_Pag_ibig.php">Pag-Ibig</a>
+            <a class="collapse-item" href="Accounting_Deduction.php">Deduction</a>
 
-            
         </div>
         
-  
+        
     </div>
 
 </li>
 <!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
+
+<!-- <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#trans"
         aria-expanded="true" aria-controls="ctrans">
         <i class="fa-regular fa-credit-card"></i>
@@ -64,15 +59,15 @@
     <div id="trans" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="Process_biometric.php">Process Biometric</a>
-            <a class="collapse-item" href="payroll_process.php">Process Payroll</a>
+            <a class="collapse-item" href="employee.php">Process Payroll</a>
             
         </div>
     </div>
 
-</li>
+</li> -->
 
 <!-- Nav Item - Utilities Collapse Menu -->
+<!-- 
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Util"
         aria-expanded="true" aria-controls="collapseUtilities">
@@ -83,17 +78,15 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="Payroll_Master_User.php">User Account</a>
+            <a class="collapse-item" href="user.php">User Account</a>
             <a class="collapse-item" href="utilities-border.php">Audit Trail</a>
             <a class="collapse-item" href="utilities-animation.php">Archived Records</a>
-            <a class="collapse-item" href="Payroll_Master_Leave_Settings.php">Leave Settings</a>
-
-            
         </div>
     </div>
-</li>
+</li> -->
 
 <!-- Nav Item - Reports Collapse Menu -->
+<!-- 
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Repo"
         aria-expanded="true" aria-controls="collapseUtilities">
@@ -106,10 +99,10 @@
             <h6 class="collapse-header">Custom Utilities:</h6>
             <a class="collapse-item" href="utilities-color.html">Payroll Summary</a>
             <a class="collapse-item" href="utilities-border.html">Attendance Monitoring</a>
-            <a class="collapse-item" href="utilities-animation.html"> Generate Payslip</a>
+            <a class="collapse-item" href="utilities-animation.html">Payslip Generating</a>
         </div>
     </div>
-</li>
+</li> -->
     
 <!-- Divider -->
 <hr class="sidebar-divider">
