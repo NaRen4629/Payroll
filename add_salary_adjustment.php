@@ -25,7 +25,7 @@ if (isset($_POST['saveSalaryAdjustment'])) {
             </div>
             <div class="modal-body">
                 <form action="add_salary_adjustment.php" method="post" class="row g-3">
-                    <input type="hidden" class="form-control" name="id_salary" value="<?php echo $Salary['salary_id']; ?>">
+                    <input type="" class="form-control" name="id_salary" value="<?php echo $Salary['salary_id']; ?>">
 
                     <div class="col-md-6 mb-3">
                         <label for="employeeName" class="form-label">Employee Name</label>

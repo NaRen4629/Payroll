@@ -6,7 +6,7 @@ require_once 'Controller/controller_salary.php';
 
 $Salary = new Salary();
 $employee_salaries = $Salary->get_all_employee_salary();
-$view_salary_adjustments =$Salary->view_salary_adjustments();
+$view_salary_adjustments =$Salary->view_salary_adjustments($id_salary);
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +84,7 @@ WHERE
                                 while ($Salary = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                     $status = $Salary['salary'] === null ? 'Not yet set' : 'Set';
                                     $statusClass = $status === 'Not yet set' ? 'text-danger' :  'text-success';
+                                    // $view_salary_adjustments = $view_salary_adjustments->view_salary_adjustments($Salary['id_salary']);
 
                             ?>
                                     <tr>
