@@ -1,100 +1,138 @@
 <?php
+// Include necessary files and start session
 include 'session.php';
 include 'includes/Accounting-header.php';
 include 'config/connection.php';
 require_once 'Controller/controller_position.php';
-$position = new Position();
 
+// Initialize Position controller
+$SSS = new Position();
 ?>
 
-
 <!-- Begin Page Content -->
-
 <div class="container-fluid">
 
-<?php if (isset($_SESSION['Position-alert_success']) && $_SESSION['Position-alert_success'] != '') { ?>
-    <?php if ($_SESSION['Position-alert_type'] == 'success') { ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['Position-alert_success']; ?>
+    <!-- Display Alert Messages -->
+    <?php if (!empty($_SESSION['SSS-alert_success'])): ?>
+        <div class="alert alert-dismissible fade show alert-<?php echo $_SESSION['SSS-alert_type']; ?>" role="alert">
+            <?= $_SESSION['SSS-alert_success']; ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    <?php } elseif ($_SESSION['Position-alert_type'] == 'danger') { ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?php echo $_SESSION['Position-alert_success']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php } ?>
-    <?php unset($_SESSION['Position-alert_success']);
-          unset($_SESSION['Position-alert_type']);
-} ?>
+        <?php 
+            unset($_SESSION['SSS-alert_success']);
+            unset($_SESSION['SSS-alert_type']);
+        ?>
+    <?php endif; ?>
 
-    <div class="page-title">
-        <h3 class="font-weight-bold text-primary">SSS</h3>
+    <!-- Page Title -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">SSS</h1>
     </div>
 
-    <!-- DataTables Example -->
-
+    <!-- Add Contribution Modal Trigger -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <!-- Button trigger modal -->   
-            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addSalary">Add SSS</button>
+            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addSSS">Add SSS</button>
+            <?php include 'add_sss.php' ?>
         </div>
+    
 
+    <!-- Data Table Card -->
+    <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
                 <table id="dataTable" class="table table-striped table-bordered nowrap" style="width: 100%">
                     <thead>
-                        <th>Type</th>
-                        <th>Position Name</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <tr>
+                            <th>Contribution Name</th>
+                            <th>Prices</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <?php
-                        // Include our connection
-                        $database = new Connection();
-                        $db = $database->open();
                         try {
-                            $sql = 'SELECT * from tbl_position';
-                            foreach ($db->query($sql) as $Position) {
+                            $database = new Connection();
+                            $db = $database->open();
+
+                            $sql = "SELECT 
+                                        *
+                                    FROM 
+                                        tbl_contribution_sss
+                                    INNER JOIN 
+                                        tbl_contribution_sss_contents 
+                                    ON 
+                                        tbl_contribution_sss.sss_id = tbl_contribution_sss_contents.sss_id
+                                    ORDER BY 
+                                        CASE WHEN tbl_contribution_sss.status = 'Active' THEN 0 ELSE 1 END, -- Order by 'Active' status first
+                                        tbl_contribution_sss.sss_id";
+
+                            $result = $db->query($sql);
+
+                            // Initialize an empty array to hold the grouped data
+                            $contributions = [];
+
+                            // Group the results by sss_id
+                            foreach ($result as $row) {
+                                $sss_id = $row['sss_id'];
+                                if (!isset($contributions[$sss_id])) {
+                                    $contributions[$sss_id] = [
+                                        'contribution_name' => htmlspecialchars($row['contribution_name']),
+                                        'prices' => [],  
+                                        'status' => $row['status']
+                                    ];
+                                }
+                                $contributions[$sss_id]['prices'][] = [
+                                    'minimum_price' => number_format($row['minimum_price'], 2),
+                                    'maximum_price' => number_format($row['maximum_price'], 2),
+                                    'total' => number_format($row['total'], 2)
+                                ];
+                            }
+
+                            // Display the grouped data in the table
+                            foreach ($contributions as $sss_id => $contribution) {
                                 ?>
                                 <tr>
-                                    <td><?php echo $Position['employee_type']; ?></td>
-                                    <td><?php echo $Position['position']; ?></td>
-                                    <td><?php echo $Position['type']; ?></td>
-                                    <td><?php echo $Position['status']; ?></td>
+                                    <td><?= $contribution['contribution_name']; ?></td>
+                                    <td>
+                                        <?php 
+                                        // Display each price range in the desired format
+                                        $formattedPrices = [];
+                                        foreach ($contribution['prices'] as $price) {
+                                            $formattedPrices[] = "₱{$price['minimum_price']} to ₱{$price['maximum_price']} Deduction: ₱{$price['total']}";
+                                        }
+                                        echo implode('<br>', $formattedPrices);
+                                        ?>
+                                    </td>
+                                    <td><?= $contribution['status']; ?></td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Action Buttons">
-                                            <a href="#editPosition_<?php echo $Position['position_id']; ?>" class="btn btn-success btn-sm" data-toggle="modal"><i class="fa-solid fa-pen"></i> Edit</a>
-                                            <a href="#deletePosition_<?php echo $Position['position_id']; ?>" class="btn btn-danger btn-sm" data-bs-toggle="modal"><i class="fa-solid fa-trash"></i> Delete</a>
-                                       <?php include('edit_position.php');?>
-                                       <?php include('delete_postion.php');?>
-
+                                            <a href="#viewreqitem_<?= $sss_id; ?>" class="btn btn-info btn-sm" data-bs-toggle="modal"><i class="fa-solid fa-eye"></i> View</a>
+                                            <a href="#editUser_<?= $sss_id; ?>" class="btn btn-success btn-sm" data-bs-toggle="modal"><i class="fa-solid fa-pen"></i> Edit</a>
+                                            <!-- <a href="#deleteUser_<?= $sss_id; ?>" class="btn btn-danger btn-sm" data-bs-toggle="modal"><i class="fa-solid fa-trash"></i> Delete</a> -->
                                         </div>
                                     </td>
                                 </tr>
-                                
                                 <?php
                             }
                         } catch (PDOException $e) {
-                            echo "There is some problem in connection: " . $e->getMessage();
+                            echo '<tr><td colspan="3">There is some problem in connection: ' . $e->getMessage() . '</td></tr>';
+                        } finally {
+                            // Close connection
+                            if (isset($database)) {
+                                $database->close();
+                            }
                         }
-                       
-                        // Close connection
-                        $database->close();
                         ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <?php include 'add_sss.php'; ?>
-
-    <!-- <?php include 'modals/Payroll_Master/Maintenance/User/add_user.php'; ?> -->
 </div>
 <!-- /.container-fluid -->
-
+</div>
 <?php
 include 'includes/footer.php';
 include 'includes/scripts.php';

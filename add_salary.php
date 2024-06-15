@@ -2,9 +2,12 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
 require_once 'Controller/controller_salary.php';
 if (isset($_POST['addSalary'])) {
     $employee_id = $_POST['select_box'];
+    $effective_date = $_POST['effective_date'];
+
     $salary = null; // Initialize salary variable
 
     // Check if basic pay or hourly rate is provided and assign the salary accordingly
@@ -16,7 +19,7 @@ if (isset($_POST['addSalary'])) {
 
     if ($salary !== null) { // Ensure salary is not null before proceeding
         $Salary = new Salary();
-        $Salary->add_salary($employee_id, $salary);
+        $Salary->add_salary($employee_id, $salary,$effective_date);
     } else {
         // Handle case where neither basic pay nor hourly rate is provided
         $_SESSION['Salary-alert_success'] = 'Salary information missing for employee ID: ' . $employee_id;
@@ -49,6 +52,12 @@ if (isset($_POST['addSalary'])) {
                         <label for="employee_position" class="form-label">Employee Position</label>
                         <input type="text" name="employee_position" class="form-control" id="employee_position" readonly>
                     </div>
+                    <div class="row mb-2 align-items-center">
+                                    <label for="inputEffectiveDate" class="col-sm-3 col-form-label"><span class="required">*</span>Effective Date:</label>
+                                    <div class="col-sm-6">
+                                        <input type="date" class="form-control" name="effective_date">
+                                    </div>
+                                </div>
                     <div id="regularFields" style="display: none;">
                         <div class="mb-3">
                             <label for="basic_pay" class="form-label">Basic Pay (Monthly Rate)</label>

@@ -35,7 +35,7 @@ if (isset($_POST['addEmployee'])) {
 
     $result = $employee->add_employee_info(
         $employee_number, $first_name, $middle_name, $last_name, $date_of_birth, $gender, $civil_status,
-        $date_hired, $status, $contact_no, $email_address, $province, $brangay, $street, $position_id, $department_id    );
+        $date_hired, $status, $contact_no, $email_address, $province, $brangay, $street, $position_id, $department_id);
 
 }
 ob_end_flush();
